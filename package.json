@@ -1,0 +1,16 @@
+{
+	"name": "vue-nest-campaign",
+	"private": true,
+	"workspaces": ["api", "client"],
+	"scripts": {
+		"dev:api": "bun run --cwd api start:dev",
+		"dev:client": "bun run --cwd client dev",
+		"dev": "concurrently \"npm run dev:api\" \"npm run dev:client\"",
+		"build": "bun run --cwd api build && bun run --cwd client build",
+		"start": "concurrently \"bun run --cwd api start\" \"bun run --cwd client preview\""
+	},
+	"devDependencies": {
+		"concurrently": "^8.2.2",
+		"typescript": "^5.3.3"
+	}
+}
