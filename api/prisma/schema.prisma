@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CampaignChannel {
+  id           String  @id @default(uuid())
+  text         String?
+  keyboardMode String  @default("inline")
+
+  campaign Campaign          @relation(fields: [campaignId], references: [id])
+  channel  ChannelDefinition @relation(fields: [channelId], references: [id])
+
+  campaignId String
+  channelId  String
+
+  buttons Button[]
+
+  @@unique([campaignId, channelId])
+}
+
+model ChannelDefinition {
+  id                   String  @id @default(uuid())
+  name                 String  @unique
+  textLimit            Int?
+  standardButtons      Int     @default(0)
+  inlineButtons        Int     @default(0)
+  labelMaxLength       Int?
+  inlineLabelMaxLength Int?
+  supportsUrl          Boolean @default(false)
+  supportsQuickReply   Boolean @default(false)
+
+  campaignChannels CampaignChannel[]
+}
+
+model Campaign {
+  id String @id @default(uuid())
+
+  channels CampaignChannel[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Button {
+  id       String  @id @default(uuid())
+  position Int
+  label    String
+  type     String  @default("quick_reply")
+  payload  String?
+
+  campaignChannel   CampaignChannel @relation(fields: [campaignChannelId], references: [id])
+  campaignChannelId String
+}
