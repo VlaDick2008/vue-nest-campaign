@@ -39,7 +39,6 @@ export class CampaignService {
 	}
 
 	async update(id: string, dto: CreateCampaignDto) {
-		// Удаляем старые связи и создаем новые
 		await this.prisma.campaignChannel.deleteMany({ where: { campaignId: id } });
 		return this.create(dto);
 	}
