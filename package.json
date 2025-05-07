@@ -1,7 +1,10 @@
 {
 	"name": "vue-nest-campaign",
 	"private": true,
-	"workspaces": ["api", "client"],
+	"workspaces": [
+		"api",
+		"client"
+	],
 	"scripts": {
 		"dev:api": "bun run --cwd api start:dev",
 		"dev:client": "bun run --cwd client dev",
