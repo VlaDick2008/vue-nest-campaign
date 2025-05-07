@@ -21,8 +21,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://appuser:secretpassword@db:5432/appdb
-      # другие переменные окружения
+      DATABASE_URL: postgresql://appuser:secretpassword@localhost:5432/appdb?schema=public
     ports:
       - "3000:3000"
 
